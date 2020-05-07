@@ -1,0 +1,163 @@
+
+
+<div class="accordion" id="{{forms.formGroupName}}" *ngFor="let forms of proccesedArrayForms;let i = index">
+    <div class="card">
+        <div class="card-header" id="headingOne">
+            <h2 class="mb-0">
+                <button class="btn btn-link" type="button" data-toggle="collapse" [attr.data-target]="i"
+                    aria-expanded="true" aria-controls="collapseOne">
+                    {{forms.formLabel}}
+                </button>
+            </h2>
+        </div>
+
+        <div id="{{i}}" class="collapse show" aria-labelledby="headingOne" [attr.data-parent]="forms.formGroupName">
+            <div class="card-body">
+                <div class="container">
+                    <form [formGroup]="forms.formGroup"
+                        (ngSubmit)="onSubmit(forms.formGroup, template,forms.formLabel)">
+                        <div *ngFor="let control of forms.controls">
+                            <div [ngSwitch]="control.type">
+                                <div *ngSwitchCase="'textfield'">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <input type="text" class="form-control"
+                                                placeholder="{{control.placeholder}}"
+                                                formControlName="{{control.name}}" />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <small class="form-text  text-danger"
+                                            *ngIf="forms.formGroup.controls[control.name].touched && forms.formGroup.controls[control.name].errors?.required">
+                                            Cannot be empty. Please enter a value.
+                                        </small>
+                                        <small class="form-text  text-danger"
+                                            *ngIf="forms.formGroup.controls[control.name].touched && forms.formGroup.controls[control.name].errors?.pattern">
+                                            Invalid input type.
+                                        </small>
+                                    </div>
+                                </div>
+
+                                <div *ngSwitchCase="'textarea'">
+                                    <div class="row">
+                                        <div class="col-6">
+                                    <textarea class="form-control" placeholder="{{control.placeholder}}"
+                                        formControlName="{{control.name}}" rows="10" cols="20"></textarea>
+                                        </div>
+                                        </div>
+
+                                    <small class="form-text  text-danger"
+                                        *ngIf="forms.formGroup.controls[control.name].touched && forms.formGroup.controls[control.name].errors?.required">
+                                        Cannot be empty. Please enter a value.
+                                    </small>
+                                    <small class="form-text  text-danger"
+                                        *ngIf="forms.formGroup.controls[control.name].touched && forms.formGroup.controls[control.name].errors?.pattern">
+                                        Invalid input type.
+                                    </small>
+
+                                </div>
+
+                                <div *ngSwitchCase="'number'">
+                                    <div class="row">
+                                        <div class="col-6">
+                                    <input type="number" class="form-control" placeholder="{{control.placeholder}}"
+                                        formControlName="{{control.name}}" />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <small class="form-text  text-danger"
+                                            *ngIf="forms.formGroup.controls[control.name].touched && forms.formGroup.controls[control.name].errors?.required">
+                                            Cannot be empty. Please enter a value.
+                                        </small>
+                                        <small class="form-text  text-danger"
+                                            *ngIf="forms.formGroup.controls[control.name].touched && forms.formGroup.controls[control.name].errors?.pattern">
+                                            Invalid input type.
+                                        </small>
+                                    </div>
+                                </div>
+
+                                <div *ngSwitchCase="'date'">
+                                    <div class="row">
+                                        <div class="col-6">
+                                    <input type="date" class="form-control" placeholder="{{control.placeholder}}"
+                                        formControlName="{{control.name}}" />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <small class="form-text  text-danger"
+                                            *ngIf="forms.formGroup.controls[control.name].touched && forms.formGroup.controls[control.name].errors?.required">
+                                            Cannot be empty. Please enter a value.
+                                        </small>
+                                        <small class="form-text  text-danger"
+                                            *ngIf="forms.formGroup.controls[control.name].touched && forms.formGroup.controls[control.name].errors?.pattern">
+                                            Invalid input type.
+                                        </small>
+                                    </div>
+                                </div>
+
+                                <div *ngSwitchCase="'select'">
+                                    <div class="row">
+                                        <div class="col-6">
+                                    <select formControlName="{{control.name}}" class="form-control">
+                                        <option *ngFor="let opt of control.items" value="{{opt.identity}}">
+                                            {{opt.value}}
+                                        </option>
+                                    </select>
+                                    </div>
+                                    </div>
+                                    <div>
+                                        <small class="form-text  text-danger"
+                                            *ngIf="forms.formGroup.controls[control.name].touched && forms.formGroup.controls[control.name].errors?.required">
+                                            Cannot be empty. Please enter a value.
+                                        </small>
+                                        <small class="form-text  text-danger"
+                                            *ngIf="forms.formGroup.controls[control.name].touched && forms.formGroup.controls[control.name].errors?.pattern">
+                                            Invalid input type.
+                                        </small>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                        <input type="submit" value="Submit" class="btn btn-primary" [disabled]="!forms.formGroup.valid" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+
+
+<ng-template #template>
+
+    <div class="modal-header">
+        <h5 class="modal-title font-weight-bold">
+            <h3>{{mlabel}}</h3>
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeModal()">
+            <span aria-hidden="true">
+                &times;
+            </span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <!-- <form> -->
+        <div class="row">
+            <div class="col" *ngFor="let l of mLabel">
+                {{l}}
+            </div>
+
+            <div class="col" *ngFor="let d of mData">
+                {{d}}
+            </div>
+        </div>
+
+
+    </div>
+
+
+</ng-template>
